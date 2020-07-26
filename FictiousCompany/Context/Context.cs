@@ -12,9 +12,11 @@ namespace FictiousCompany.Context
     {
         private readonly IConfiguration _configuration;
 
-        public Context(DbContextOptions options, IConfiguration configration)
-            : base(options) => _configuration = configration;
-
+        
+        public Context(DbContextOptions<Context> options)
+           : base(options)
+        {
+        }
         public DbSet<Product> Products { get; set; }
 
 
