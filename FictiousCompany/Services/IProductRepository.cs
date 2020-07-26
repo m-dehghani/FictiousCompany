@@ -1,4 +1,5 @@
-﻿using FictiousCompany.Models;
+﻿using FictiousCompany.Infrastructure;
+using FictiousCompany.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +22,8 @@ namespace FictiousCompany.Services
        
         Product GetFullInfo(int id, int userId);
 
-        void Update(Product product, List<int> allergicStuffsId, string imageStr, int userId);
-
+        void Update(Product product, string imageStr, int userId);
+        //public void Update(Product product, string imageStr, int userId)
         bool IsAvailable(int id);
 
         Product GetProductFullInfo(int id);

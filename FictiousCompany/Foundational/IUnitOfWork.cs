@@ -1,4 +1,5 @@
-﻿using FictiousCompany.Services;
+﻿using FictiousCompany.Models;
+using FictiousCompany.Services;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;

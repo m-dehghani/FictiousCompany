@@ -1,12 +1,13 @@
-﻿using System;
+﻿using FictiousCompany.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FictiousCompany.Models
+namespace FictiousCompany.ViewModels
 {
-    public class Product
+    public class ProductVM
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -16,5 +17,10 @@ namespace FictiousCompany.Models
         public bool Deleted { get; set; }
         [MaxLength(100)]
         public string ImageName { get; set; }
+
+        public static explicit operator ProductVM(Product v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

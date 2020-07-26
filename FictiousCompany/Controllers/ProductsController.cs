@@ -10,6 +10,7 @@ using FictiousCompany.Models;
 using FictiousCompany.Foundational;
 using FictiousCompany.Infrastructure;
 using FictiousCompany.Infrastructure.Types;
+using FictiousCompany.ViewModels;
 
 namespace FictiousCompany.Controllers
 {
@@ -32,9 +33,8 @@ namespace FictiousCompany.Controllers
             try
             {
                  string[] includes = {  "Extras.Extra.Items", "Company", "Categories" };
-                var products = UnitOfWork.ProductRepository.GetAll(CurrentUserId, includes).Select(p => (ProductVM)p).ToList();
-                //.GetAll(p => !p.Deleted && p.Company.OwnerId == userId, includes: includes)
-                //.Select(p => (ProductVM)p).ToList();
+                var products = await UnitOfWork.ProductRepository.GetAll(CurrentUserId, includes).Select(p => (ProductVM)p).ToList();
+                
                 return new DoneResult(ResultType.Successful, data: products);
             }
             catch (Exception ex)
