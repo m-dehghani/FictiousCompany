@@ -28,12 +28,12 @@ namespace FictiousCompany.Controllers
 
         // GET: api/Products
         [HttpGet]
-        public async Task<DoneResult> GetProducts()
+        public DoneResult GetProducts()
         {
             try
             {
                  string[] includes = {  "Extras.Extra.Items", "Company", "Categories" };
-                var products = await UnitOfWork.ProductRepository.GetAll(CurrentUserId, includes).Select(p => (ProductVM)p).ToList();
+                var products =  UnitOfWork.ProductRepository.GetAll(CurrentUserId, includes).Select(p => (ProductVM)p).ToList();
                 
                 return new DoneResult(ResultType.Successful, data: products);
             }
@@ -48,7 +48,7 @@ namespace FictiousCompany.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = UnitOfWork.ProductRepository.Get(p => p.Id == id);
 
             if (product == null)
             {
@@ -64,29 +64,12 @@ namespace FictiousCompany.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(int id, Product product)
         {
-            if (id != product.ProductID)
+            if (id != product.Id)
             {
                 return BadRequest();
             }
-
-            _context.Entry(product).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
+            UnitOfWork.ProductRepository.Update(product);
+           
             return NoContent();
         }
 
@@ -96,31 +79,22 @@ namespace FictiousCompany.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetProduct", new { id = product.ProductID }, product);
+            UnitOfWork.ProductRepository.Add(product);
+           
+            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
         }
 
         // DELETE: api/Products/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Product>> DeleteProduct(int id)
+        public async Task DeleteProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-
-            return product;
+            UnitOfWork.ProductRepository.Delete(id, GetUserId());
+           
         }
 
         private bool ProductExists(int id)
         {
-            return _context.Products.Any(e => e.ProductID == id);
+            return UnitOfWork.ProductRepository.Exists(p => p.Id == id);
         }
     }
 }

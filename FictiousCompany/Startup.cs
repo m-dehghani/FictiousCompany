@@ -11,11 +11,17 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using FictiousCompany.Foundational;
 
 namespace FictiousCompany
 {
     public class Startup
+
     {
+        public static string wwwRootFolder = string.Empty;
+        public static string hostUrl = string.Empty;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,8 +34,11 @@ namespace FictiousCompany
         {
             services.AddControllers();
 
-            services.AddDbContext<Context>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("FictiousCompanyContext")));
+            //  services.AddDbContext<Context>(options =>
+            //options.UseSqlServer(Configuration.GetConnectionString("FictiousCompanyContext")));
+            services.AddDbContext<Context>();
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 
             services.AddSwaggerGen(c =>
@@ -66,8 +75,19 @@ namespace FictiousCompany
                 //c.SwaggerEndpoint("../swagger/v1/swagger.json", "SwaggerFictiuosCompany");
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger FictiousCompany");
             });
+            UpdateDatabase(app);
 
 
+        }
+        private static void UpdateDatabase(IApplicationBuilder app)
+        {
+            using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            {
+                using var context = serviceScope.ServiceProvider.GetService<Context>();
+                {
+                    context.Database.Migrate();
+                }
+            }
         }
     }
 }
