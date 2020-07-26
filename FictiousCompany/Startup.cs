@@ -46,6 +46,11 @@ namespace FictiousCompany
             {
                 endpoints.MapControllers();
             });
+
+            app.UseStatusCodePages();
+            app.UseStaticFiles();
+            
+
         }
     }
 }
