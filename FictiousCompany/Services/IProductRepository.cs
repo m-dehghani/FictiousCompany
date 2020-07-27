@@ -9,7 +9,7 @@ namespace FictiousCompany.Services
 {
     public interface IProductRepository : IRepository<Product>
     {
-        void Add(Product product, string imageStr, int userId);
+        void Add(Product product,  int userId);
 
         void Delete(int id, int userId);
 

@@ -15,8 +15,8 @@ namespace FictiousCompany.ViewModels
         public decimal Price { get; set; }
         public string Category { get; set; }
         public bool Deleted { get; set; }
-        [MaxLength(100)]
-        public string ImageName { get; set; }
+        public int Quantity { get; set; }
+        public int MinQuantity { get; set; }
 
         public static explicit operator ProductVM(Product v)
         {

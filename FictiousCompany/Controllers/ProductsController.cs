@@ -32,7 +32,7 @@ namespace FictiousCompany.Controllers
         {
             try
             {
-                 string[] includes = {  "Extras.Extra.Items", "Company", "Categories" };
+                 string[] includes = {  "Category" };
                 var products =  UnitOfWork.ProductRepository.GetAll(CurrentUserId, includes).Select(p => (ProductVM)p).ToList();
                 
                 return new DoneResult(ResultType.Successful, data: products);
@@ -45,10 +45,10 @@ namespace FictiousCompany.Controllers
         }
 
         // GET: api/Products/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        [HttpGet("{code}")]
+        public async Task<ActionResult<Product>> GetProduct(int code)
         {
-            var product = UnitOfWork.ProductRepository.Get(p => p.Id == id);
+            var product = UnitOfWork.ProductRepository.Get(p => p.Code == code);
 
             if (product == null)
             {
@@ -61,10 +61,10 @@ namespace FictiousCompany.Controllers
         // PUT: api/Products/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
+        [HttpPut("{code}")]
+        public async Task<IActionResult> PutProduct(int code, Product product)
         {
-            if (id != product.Id)
+            if (code != product.Code)
             {
                 return BadRequest();
             }
@@ -81,7 +81,7 @@ namespace FictiousCompany.Controllers
         {
             UnitOfWork.ProductRepository.Add(product);
            
-            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+            return CreatedAtAction("GetProduct", new { id = product.Code }, product);
         }
 
         // DELETE: api/Products/5
@@ -92,9 +92,19 @@ namespace FictiousCompany.Controllers
            
         }
 
-        private bool ProductExists(int id)
+        private bool ProductExists(int code)
         {
-            return UnitOfWork.ProductRepository.Exists(p => p.Id == id);
+            return UnitOfWork.ProductRepository.Exists(p => p.Code == code);
         }
+
+        [HttpPost("ProductEntry")]
+        public ActionResult<DoneResult> ProductEntry([FromBody] ProductEntryVM productEntryVM)
+        {
+            
+        }
+
+
+
+
     }
 }

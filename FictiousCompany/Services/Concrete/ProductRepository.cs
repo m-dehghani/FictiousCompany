@@ -17,16 +17,18 @@ namespace FictiousCompany.Services.Concrete
             {
             }
 
-            public void Add(Product product, string imageStr, int userId)
+            public void Add(Product product, int userId)
             {
-                if (!string.IsNullOrEmpty(imageStr))
-                {
-                    product.ImageName = Common.Instance.SaveBase64Image(imageStr, $"{product.Name}.png", @$"\Products");
-                }
 
-                
+            if (Exists(p => p.Code == product.Code))
+            {
+                Update(product);
+            }
+            else
+            {
 
                 _context.Products.Add(product);
+            }
             }
 
             public void Delete(int id, int userId)

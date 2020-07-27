@@ -31,11 +31,17 @@ namespace FictiousCompany
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
             base.OnModelCreating(builder);
-
-
-
             const string priceDecimalType = "decimal(20,2)";
+
+            builder.Entity<Product>().Property(p => p.Price).HasColumnType(priceDecimalType);
+            builder.Entity<Product>().HasKey(p => p.Code);
+
+
+            builder.Entity<CategoryProduct>().HasKey(p => new { p.ProductId, p.CategoryId });
+
+            
 
 
         }
