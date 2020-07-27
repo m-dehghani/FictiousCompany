@@ -17,9 +17,9 @@ namespace FictiousCompany.Models
         public virtual int ProductCode { get; set; }
         public virtual Product Product { get; set; }
 
-        [ForeignKey("Document")]
-        public virtual int DocumentId { get; set; }
-        public virtual  Document Document { get; set; }
+        [ForeignKey("Sell")]
+        public virtual int SellId { get; set; }
+        public virtual  Sell Sell { get; set; }
 
 
     }

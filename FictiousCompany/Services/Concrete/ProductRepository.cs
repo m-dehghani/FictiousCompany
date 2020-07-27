@@ -31,9 +31,9 @@ namespace FictiousCompany.Services.Concrete
             }
             }
 
-            public void Delete(int id, int userId)
+            public void Delete(int code, int userId)
             {
-                var product = SingleOrDefault(t => t.Id == id );
+                var product = SingleOrDefault(t => t.Code == code );
 
                 if (product != null)
                 {
@@ -43,9 +43,9 @@ namespace FictiousCompany.Services.Concrete
 
             }
 
-            public bool Exists(int ownerId, int productId)
+            public bool Exists(int ownerId, int productCode)
             {
-                return Exists(e => e.Id == productId );
+                return Exists(e => e.Code == productCode );
             }
 
             public IEnumerable<Product> GetAll(int ownerId, params string[] includes)
@@ -69,10 +69,10 @@ namespace FictiousCompany.Services.Concrete
             }
 
          
-            public Product GetFullInfo(int id, int userId)
+            public Product GetFullInfo(int code, int userId)
             {
                 return _context.Products.Include("MainCategory")
-                                         .FirstOrDefault(a =>  a.Id == id);
+                                         .FirstOrDefault(a =>  a.Code == code);
             }
 
            
@@ -80,7 +80,7 @@ namespace FictiousCompany.Services.Concrete
             public void Update(Product product, string imageStr, int userId)
             {
                
-                var entity = SingleOrDefault(t => t.Id == product.Id );
+                var entity = SingleOrDefault(t => t.Code == product.Code );
 
                 if (entity != null)
                 {
@@ -90,19 +90,22 @@ namespace FictiousCompany.Services.Concrete
                 
             }
 
-            public bool IsAvailable(int id)
+            public bool IsAvailable(int code)
             {
 
 
-                 return _context.Products.FirstOrDefault(p => p.Id == id) == null ? false : true;
+                 return _context.Products.FirstOrDefault(p => p.Code == code) == null ? false : true;
             }
 
-            public Product GetProductFullInfo(int id)
+            public Product GetProductFullInfo(int code)
             {
-                var product = _context.Products .FirstOrDefault(p => p.Id == id);
+                var product = _context.Products .FirstOrDefault(p => p.Code == code);
 
-                return IsAvailable(id) ? product : null;
+                return IsAvailable(code) ? product : null;
             }
+
+            
+
         }
     }
 

@@ -13,7 +13,7 @@ namespace FictiousCompany.Models
         public int Id { get; set; }
 
         [ForeignKey("Product")]
-        public int ProductId { get; set; }
+        public int ProductCode { get; set; }
 
         [ForeignKey("Category")]
         public int CategoryId { get; set; }

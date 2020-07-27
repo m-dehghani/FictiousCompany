@@ -112,7 +112,11 @@ namespace FictiousCompany.Controllers
         
         }
 
-         
+         [HttpPost("SellProducts")]
+        public void SellProducts([FromBody]ProductSellVM productSellVM)
+        {
+            UnitOfWork.SellRepository.Add((Sell)productSellVM);
+        }
 
 
 

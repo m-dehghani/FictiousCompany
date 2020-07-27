@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FictiousCompany.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,5 +18,9 @@ namespace FictiousCompany.Models
         public double TotalPrice { get;  }
         public IEnumerable<SellProducts> SoldProducts { get; set; }
 
+        public static explicit operator Sell(ProductSellVM v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

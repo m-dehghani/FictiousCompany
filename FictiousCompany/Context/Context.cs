@@ -22,6 +22,9 @@ namespace FictiousCompany
         {
         }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Sell> Sells { get; set; }
+
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -39,9 +42,10 @@ namespace FictiousCompany
             builder.Entity<Product>().HasKey(p => p.Code);
 
 
-            builder.Entity<CategoryProduct>().HasKey(p => new { p.ProductId, p.CategoryId });
+            builder.Entity<CategoryProduct>().HasKey(p => new { p.ProductCode, p.CategoryId });
+            builder.Entity<SellProducts>().HasKey(p => new { p.ProductCode, p.SellId });
 
-            
+
 
 
         }

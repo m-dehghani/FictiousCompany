@@ -12,6 +12,7 @@ namespace FictiousCompany.Foundational
     {
         IProductRepository ProductRepository { get; }
         ICategoryRepository CategoryRepository { get; }
+        ISellRepository SellRepository { get; }
         IDbContextTransaction BeginTransaction();
 
 
