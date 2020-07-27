@@ -1,4 +1,6 @@
-﻿using FictiousCompany.ViewModels;
+﻿using FictiousCompany.Infrastructure;
+using FictiousCompany.Infrastructure.Types;
+using FictiousCompany.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,6 +25,9 @@ namespace FictiousCompany.Models
         public int Quantity { get; set; }
         public int MinQty { get; set; }
         public bool Deleted { get; set; }
+        public ProductStatus Status { get; set; }
+
+        
 
         public static explicit operator Product(ProductEntryVM v)
         {

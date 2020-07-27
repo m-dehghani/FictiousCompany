@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FictiousCompany.Services
 {
-    interface ICategoryRepository: IRepository<Category>
+    public interface ICategoryRepository: IRepository<Category>
     {
         void Add(Category category, int userId);
 

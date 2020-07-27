@@ -24,7 +24,15 @@ namespace FictiousCompany.Controllers
              : base(unitOfWork)
         {
         }
-
+       
+        
+        [HttpGet("ListProducts")]
+        public ActionResult<DoneResult> ListProducts([FromQuery] CollectionRequest request)
+        {
+            int pageNumber = request.PageNumber;
+            var products = UnitOfWork.ProductRepository.GetAll(CurrentUserId, request.Take, ref pageNumber, request.SortField, request.SortOrder, out int totalCount).ToList();
+            return new DoneResult(ResultType.Successful, data: products);
+        }
 
         // GET: api/Products
         [HttpGet]
@@ -32,7 +40,7 @@ namespace FictiousCompany.Controllers
         {
             try
             {
-                 string[] includes = {  "Category" };
+                string[] includes = {  "Category" };
                 var products =  UnitOfWork.ProductRepository.GetAll(CurrentUserId, includes).Select(p => (ProductVM)p).ToList();
                 
                 return new DoneResult(ResultType.Successful, data: products);
@@ -98,11 +106,13 @@ namespace FictiousCompany.Controllers
         }
 
         [HttpPost("ProductEntry")]
-        public ActionResult<DoneResult> ProductEntry([FromBody] ProductEntryVM productEntryVM)
+        public void ProductEntry([FromBody] ProductEntryVM productEntryVM)
         {
-            
+            UnitOfWork.ProductRepository.Update((Product)productEntryVM);
+        
         }
 
+         
 
 
 

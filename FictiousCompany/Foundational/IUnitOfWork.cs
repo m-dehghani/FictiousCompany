@@ -11,6 +11,7 @@ namespace FictiousCompany.Foundational
     public interface IUnitOfWork : IDisposable
     {
         IProductRepository ProductRepository { get; }
+        ICategoryRepository CategoryRepository { get; }
         IDbContextTransaction BeginTransaction();
 
 

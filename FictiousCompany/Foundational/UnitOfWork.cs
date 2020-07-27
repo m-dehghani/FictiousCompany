@@ -16,6 +16,7 @@ namespace FictiousCompany.Foundational
         private readonly Context _context;
 
         private IProductRepository _productRepository;
+        private ICategoryRepository _categoryRepository;
 
         public UnitOfWork(Context context)
         {
@@ -23,6 +24,7 @@ namespace FictiousCompany.Foundational
         }
 
         public IProductRepository ProductRepository => GetFieldValue<Product, IProductRepository, ProductRepository>(ref _productRepository);
+        public ICategoryRepository CategoryRepository => GetFieldValue<Category, ICategoryRepository, CategoryRepository>(ref _categoryRepository);
 
 
         private TInterface GetFieldValue<TEntity, TInterface, TRepository>(ref TInterface field) where TEntity : class, new() where TInterface : IRepository<TEntity> where TRepository : Repository<TEntity>, TInterface
